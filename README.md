@@ -16,8 +16,12 @@ python -m http.server 4173 --directory dist
 - `dist/index.html` — UI, 사진 처리, 해석 로직을 담은 단일 배포 파일
 - `BLUEPRINT.md` — 시장성, BM, 보안, 범위와 로드맵
 - `.openai/hosting.json` — 정적 호스팅 설정
+- `.github/workflows/site.yml` — 푸시 시 정적 검증과 GitHub Pages 배포
 
 ## 주의
 
 손금은 과학적으로 검증된 성격 검사나 미래 예측법이 아닙니다. 이 프로젝트는 오락·자기성찰용이며 의료·재정·법률 판단에 사용하면 안 됩니다.
 
+## GitHub Pages
+
+`main`에 푸시하면 GitHub Actions가 `dist/index.html`의 구문과 필수 콘텐츠를 확인한 뒤 GitHub Pages에 배포합니다. 저장소 설정에서 Pages의 Source를 `GitHub Actions`로 선택해야 첫 배포가 활성화됩니다.
