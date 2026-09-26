@@ -8,12 +8,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
 
 jobs:
   validate:
@@ -38,24 +32,3 @@ jobs:
           NODE
       - name: 필수 파일 확인
         run: test -f dist/index.html && test -f .openai/hosting.json
-
-  deploy:
-    name: GitHub Pages 배포
-    needs: validate
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Pages 설정
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - name: 배포 아티팩트 업로드
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-      - name: Pages 배포
-        id: deployment
-        uses: actions/deploy-pages@v4
