@@ -50,6 +50,8 @@ jobs:
     steps:
       - name: Pages 설정
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - name: 배포 아티팩트 업로드
         uses: actions/upload-pages-artifact@v3
         with:
