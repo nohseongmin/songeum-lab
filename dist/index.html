@@ -20,7 +20,7 @@
     .intro{margin:34px 0 30px}.eyebrow{color:var(--coral);font-size:.72rem;letter-spacing:.08em}.intro h1{font-family:Georgia,"Noto Serif KR",serif;font-weight:600;letter-spacing:-.065em}.intro p{color:#59544b}.truth{color:#59544b;border-left-color:var(--coral)}
     .card{background:var(--panel);border:1px solid #2f2b25;border-radius:var(--radius);box-shadow:none}.viewer,.panel{padding:20px}.step{color:#81796c;letter-spacing:.08em}.privacy{color:var(--mint)}
     .stage{background-color:#e1d7c7;background-image:linear-gradient(#2f2b2510 1px,transparent 1px),linear-gradient(90deg,#2f2b2510 1px,transparent 1px);border:1px dashed #9e927f;border-radius:2px}.stage canvas{border-radius:2px}.empty p,.panel-copy{color:#756f64}.upload{border-radius:2px;background:var(--gold);color:#fffaf0}.camera-button{border-radius:2px;background:var(--coral);color:#fffaf0}.ghost,.primary,.generate{border-radius:2px}.ghost{background:transparent;color:var(--paper);border-color:#8f8474}.primary{background:var(--coral)}.generate{background:var(--gold);color:#fffaf0}.notice{border-radius:2px;background:transparent;border:1px solid var(--line);color:#635d53}.question legend{color:var(--paper)}.choice span{border-color:#b8ac99;border-radius:2px;background:#f1eadf;color:#5f594f}.choice input:checked+span{border-color:var(--coral);background:#ead6ca;color:#4a2d26;box-shadow:0 0 0 1px var(--coral) inset}.choice input:focus-visible+span{outline-color:var(--mint)}.status,.camera-status{color:var(--coral)}
-    .result-title{font-family:Georgia,"Noto Serif KR",serif}.reading{border-bottom-color:var(--line)}.reading p{color:#5f594f}.sources{padding:20px}.source-grid{gap:10px}.source{padding:15px;border-radius:2px;background:#eee5d7;border-color:var(--line)}.source p{color:#756f64}.foot{color:#81796c;border-top:1px solid var(--line);margin-top:22px}.ad-slot{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;min-height:90px;margin:18px auto 0;max-width:760px;padding:12px 14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:#81796c}.ad-label{font-size:.68rem;letter-spacing:.08em;color:#9a6a2c}.ad-placeholder{font-size:.78rem}.ad-placeholder strong{display:block;color:#625b50;font-weight:600}.ad-placeholder span{display:block;margin-top:2px}
+    .result-title{font-family:Georgia,"Noto Serif KR",serif}.summary{margin:14px 0 0;padding:12px 14px;border-left:2px solid var(--coral);background:#eee5d7;color:#514a40;font-family:Georgia,"Noto Serif KR",serif;font-size:.98rem}.reading{border-bottom-color:var(--line)}.reading p{color:#5f594f}.sources{padding:20px}.source-grid{gap:10px}.source{padding:15px;border-radius:2px;background:#eee5d7;border-color:var(--line)}.source p{color:#756f64}.foot{color:#81796c;border-top:1px solid var(--line);margin-top:22px}.ad-slot{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;min-height:90px;margin:18px auto 0;max-width:760px;padding:12px 14px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:#81796c}.ad-label{font-size:.68rem;letter-spacing:.08em;color:#9a6a2c}.ad-placeholder{font-size:.78rem}.ad-placeholder strong{display:block;color:#625b50;font-weight:600}.ad-placeholder span{display:block;margin-top:2px}
     @media(max-width:460px){.ad-slot{grid-template-columns:1fr;gap:2px;min-height:78px}.ad-placeholder span{font-size:.72rem}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.scanning .scan-line{animation:none}}
   </style>
@@ -52,18 +52,21 @@
       </article>
 
       <aside class="card panel" id="input-panel">
-        <div class="panel-head"><span class="step">02 · 선 확인</span></div><h2>사진과 안내선을 비교해보세요</h2><p class="panel-copy">점선은 위치를 찾는 가이드일 뿐 자동 판독 결과가 아닙니다. 가장 가까운 모양을 고르면 됩니다.</p>
+        <div class="panel-head"><span class="step">02 · 선 확인</span></div><h2>사진에서 보이는 선을 골라보세요</h2><p class="panel-copy">정면 사진에서 확인되는 선을 중심으로, 가장 가까운 모양을 고르면 전체 손금 이야기를 만들 수 있습니다.</p>
         <div class="notice">생명선은 전통적으로 활력의 상징으로 읽지만, 길이가 수명이나 건강을 뜻하지는 않습니다.</div>
         <form id="reading-form" class="questions">
           <fieldset class="question"><legend>감정선 <small>손가락 바로 아래</small></legend><div class="choices"><label class="choice"><input type="radio" name="heart" value="index"><span>검지 쪽으로 올라간다</span></label><label class="choice"><input type="radio" name="heart" value="middle"><span>중지 아래로 곧게 간다</span></label></div></fieldset>
           <fieldset class="question"><legend>두뇌선 <small>손바닥 중앙</small></legend><div class="choices"><label class="choice"><input type="radio" name="head" value="straight"><span>비교적 곧다</span></label><label class="choice"><input type="radio" name="head" value="curve"><span>아래로 완만히 휜다</span></label></div></fieldset>
           <fieldset class="question"><legend>생명선 <small>엄지 볼을 감싸는 곡선</small></legend><div class="choices"><label class="choice"><input type="radio" name="life" value="wide"><span>넓게 감싼다</span></label><label class="choice"><input type="radio" name="life" value="close"><span>엄지에 가깝게 흐른다</span></label></div></fieldset>
+          <fieldset class="question"><legend>운명선 <small>손바닥 중앙을 세로로 지나는 선</small></legend><div class="choices"><label class="choice"><input type="radio" name="fate" value="clear"><span>중앙에 또렷하다</span></label><label class="choice"><input type="radio" name="fate" value="light"><span>희미하거나 끊긴다</span></label></div></fieldset>
+          <fieldset class="question"><legend>태양선 <small>약지 아래로 올라가는 선</small></legend><div class="choices"><label class="choice"><input type="radio" name="sun" value="visible"><span>보이는 편이다</span></label><label class="choice"><input type="radio" name="sun" value="hidden"><span>거의 보이지 않는다</span></label></div></fieldset>
+          <fieldset class="question"><legend>관계선 <small>새끼손가락 아래 가로선</small></legend><div class="choices"><label class="choice"><input type="radio" name="union" value="clear"><span>짧고 선명하다</span></label><label class="choice"><input type="radio" name="union" value="many"><span>여러 줄이 보인다</span></label></div></fieldset>
           <button class="generate" id="generate" type="submit" disabled>사진을 먼저 선택해주세요</button><p class="status" id="status" role="status"></p>
         </form>
       </aside>
 
       <aside class="card panel result" id="result" aria-live="polite">
-        <div class="result-head"><span class="step">03 · 오락용 해석</span><h2 class="result-title">당신의 손이 건넨<br>세 가지 힌트</h2></div><div id="readings"></div>
+        <div class="result-head"><span class="step">03 · 오락용 해석</span><h2 class="result-title">당신의 손이 건넨<br>여섯 가지 힌트</h2><p class="summary" id="summary"></p></div><div id="readings"></div>
         <div class="notice"><strong>이 결과가 말하지 않는 것</strong><br>성격을 확정하거나 미래, 수명, 질병, 재물운을 예측하지 않습니다. 지금 마음에 와닿는 문장만 자기성찰의 질문으로 사용하세요.</div>
         <button class="ghost reset" id="reset" type="button">다시 확인하기</button>
       </aside>
@@ -84,9 +87,12 @@
     const interpretations={
       heart:{index:{title:'감정선 · 이상을 향하는 마음',body:'전통 손금술에서는 검지 쪽으로 향하는 감정선을 관계에 기대와 기준을 두는 모습으로 읽습니다. 기대가 커질 때는 상대의 방식도 함께 묻는 것이 균형에 도움이 될 수 있어요.'},middle:{title:'감정선 · 현실을 살피는 마음',body:'중지 아래로 비교적 곧게 흐르는 감정선은 감정을 행동과 현실 속에서 확인하려는 경향으로 해석합니다. 표현을 아끼는 편이라면, 중요한 마음은 한 번 더 말로 전해보세요.'}},
       head:{straight:{title:'두뇌선 · 구조를 세우는 사고',body:'곧은 두뇌선은 사실과 순서를 중심으로 판단하는 성향의 상징으로 읽힙니다. 계획이 복잡해질수록 가장 작은 다음 행동을 정하는 방식이 잘 맞을 수 있어요.'},curve:{title:'두뇌선 · 가능성을 잇는 사고',body:'아래로 완만히 휘는 두뇌선은 상상과 직관을 활용하는 성향의 상징으로 풀이합니다. 떠오른 생각을 짧게 기록하면 영감이 실제 선택으로 이어지기 쉬워요.'}},
-      life:{wide:{title:'생명선 · 바깥으로 넓은 에너지',body:'엄지 볼을 넓게 감싸는 생명선은 새로운 경험과 활동에 에너지를 쓰는 모습의 상징으로 해석합니다. 넓게 움직이는 만큼 회복을 위한 빈 시간도 일정에 남겨두세요.'},close:{title:'생명선 · 안쪽으로 모으는 에너지',body:'엄지에 가깝게 흐르는 생명선은 익숙한 환경과 깊은 집중에서 힘을 모으는 모습의 상징으로 읽습니다. 편안한 기반을 지키면서 작은 변화부터 시도해보세요.'}}
+      life:{wide:{title:'생명선 · 바깥으로 넓은 에너지',body:'엄지 볼을 넓게 감싸는 생명선은 새로운 경험과 활동에 에너지를 쓰는 모습의 상징으로 해석합니다. 넓게 움직이는 만큼 회복을 위한 빈 시간도 일정에 남겨두세요.'},close:{title:'생명선 · 안쪽으로 모으는 에너지',body:'엄지에 가깝게 흐르는 생명선은 익숙한 환경과 깊은 집중에서 힘을 모으는 모습의 상징으로 읽습니다. 편안한 기반을 지키면서 작은 변화부터 시도해보세요.'}},
+      fate:{clear:{title:'운명선 · 방향을 세우는 사람',body:'손바닥 중앙의 운명선이 또렷하면 스스로 정한 방향과 역할을 중요하게 여기는 흐름으로 읽습니다. 한 가지 목표를 오래 붙잡을수록 존재감이 커질 수 있어요.'},light:{title:'운명선 · 길을 바꾸며 배우는 사람',body:'운명선이 희미하거나 끊겨 보이면 정해진 길보다 경험에 따라 방향을 바꾸는 흐름으로 풀이합니다. 지금의 우회도 다음 장면을 위한 재료가 될 수 있어요.'}},
+      sun:{visible:{title:'태양선 · 표현이 빛나는 순간',body:'약지 아래 태양선이 보이면 만든 것과 표현한 것을 세상에 보여주고 싶은 마음의 상징으로 읽습니다. 작게라도 결과물을 공개할 때 운이 움직인다고 풀이해요.'},hidden:{title:'태양선 · 조용히 쌓이는 감각',body:'태양선이 잘 보이지 않으면 박수보다 과정의 만족을 중시하는 흐름으로 해석합니다. 드러나지 않은 실력도 꾸준히 쌓이면 결국 표면으로 올라옵니다.'}},
+      union:{clear:{title:'관계선 · 깊이를 고르는 마음',body:'새끼손가락 아래 관계선이 짧고 선명하면 관계의 수보다 한 사람과의 밀도를 중요하게 보는 상징으로 풀이합니다. 마음이 맞는 리듬을 오래 가꾸는 편이에요.'},many:{title:'관계선 · 여러 인연을 통과하는 마음',body:'관계선이 여러 줄이면 다양한 인연과 감정의 결을 경험하는 흐름으로 읽습니다. 선택지가 많을수록 내가 원하는 관계의 기준을 먼저 세워두면 좋아요.'}}
     };
-    const colors=['#ef6a55','#efb64d','#64d7c7'];
+    const colors=['#a54535','#9a6a2c','#496957','#6f4f8c','#9a6a2c','#a54535'];
     const stage=document.querySelector('#stage'),canvas=document.querySelector('#canvas'),ctx=canvas.getContext('2d',{willReadFrequently:true});
     const camera=document.querySelector('#camera'),cameraStatus=document.querySelector('#camera-status');
     const form=document.querySelector('#reading-form'),generate=document.querySelector('#generate'),status=document.querySelector('#status');
@@ -107,14 +113,14 @@
       try{
         const permission=navigator.permissions?await navigator.permissions.query({name:'camera'}).catch(()=>null):null;
         if(permission?.state==='denied'){showCameraStatus('카메라가 차단되어 있습니다. 브라우저 사이트 설정에서 카메라를 허용해주세요.');return}
-        cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});camera.srcObject=cameraStream;await camera.play();stage.classList.add('camera-active');cameraStatus.textContent='';status.textContent='카메라가 준비되었습니다. 손바닥을 맞춘 뒤 촬영하세요.';
+      cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'}},audio:false});camera.srcObject=cameraStream;await camera.play();stage.classList.add('camera-active');cameraStatus.textContent='';status.textContent='카메라가 준비되었습니다. 손바닥을 맞춘 뒤 촬영하세요.';
       }catch(error){
         stopCamera();showCameraStatus(error.name==='NotAllowedError'?'카메라 권한이 거부되었습니다. 사이트 설정에서 허용하거나 사진 선택을 이용해주세요.':error.name==='NotFoundError'?'사용할 수 있는 카메라를 찾지 못했습니다.':error.name==='NotReadableError'?'다른 앱이 카메라를 사용 중입니다. 앱을 닫고 다시 시도해주세요.':'카메라를 시작하지 못했습니다. 사진 선택을 이용해주세요.');
       }
     }
     function captureCamera(){
       if(!camera.videoWidth){cameraStatus.textContent='카메라 준비가 끝나지 않았습니다. 잠시 후 다시 촬영해주세요.';return}
-      const scale=Math.min(1,MAX_SIDE/Math.max(camera.videoWidth,camera.videoHeight));canvas.width=Math.round(camera.videoWidth*scale);canvas.height=Math.round(camera.videoHeight*scale);ctx.drawImage(camera,0,0,canvas.width,canvas.height);stopCamera();markPhotoReady('촬영이 끝났습니다. 세 가지 선을 확인해주세요.');
+      const scale=Math.min(1,MAX_SIDE/Math.max(camera.videoWidth,camera.videoHeight));canvas.width=Math.round(camera.videoWidth*scale);canvas.height=Math.round(camera.videoHeight*scale);ctx.drawImage(camera,0,0,canvas.width,canvas.height);stopCamera();markPhotoReady('촬영이 끝났습니다. 여섯 가지 선을 확인해주세요.');
     }
 
     function loadPhoto(file){
@@ -122,7 +128,7 @@
       if(!file||!file.type.startsWith('image/')){status.textContent='이미지 파일을 선택해주세요.';return}
       if(file.size>MAX_FILE_BYTES){status.textContent='사진은 12MB 이하로 선택해주세요.';return}
       const image=new Image(),url=URL.createObjectURL(file);
-      image.onload=()=>{const scale=Math.min(1,MAX_SIDE/Math.max(image.naturalWidth,image.naturalHeight));canvas.width=Math.round(image.naturalWidth*scale);canvas.height=Math.round(image.naturalHeight*scale);ctx.drawImage(image,0,0,canvas.width,canvas.height);URL.revokeObjectURL(url);stopCamera();markPhotoReady('사진 준비가 끝났습니다. 세 가지 선을 확인해주세요.')};
+      image.onload=()=>{const scale=Math.min(1,MAX_SIDE/Math.max(image.naturalWidth,image.naturalHeight));canvas.width=Math.round(image.naturalWidth*scale);canvas.height=Math.round(image.naturalHeight*scale);ctx.drawImage(image,0,0,canvas.width,canvas.height);URL.revokeObjectURL(url);stopCamera();markPhotoReady('사진 준비가 끝났습니다. 여섯 가지 선을 확인해주세요.')};
       image.onerror=()=>{URL.revokeObjectURL(url);status.textContent='사진을 열 수 없습니다. 다른 이미지를 선택해주세요.'};
       image.src=url;
     }
@@ -140,7 +146,8 @@
       ctx.putImageData(new ImageData(data,width,height),0,0);stage.classList.add('scanning');setTimeout(()=>stage.classList.remove('scanning'),1400);status.textContent='명암과 윤곽을 강화했습니다.';
     }
     function makeReading(key,value,index){const item=interpretations[key][value],section=document.createElement('section'),heading=document.createElement('h3'),dot=document.createElement('span'),text=document.createElement('p');section.className='reading';dot.className='dot';dot.style.background=colors[index];heading.append(dot,document.createTextNode(item.title));text.textContent=item.body;section.append(heading,text);return section}
-    form.addEventListener('submit',event=>{event.preventDefault();const values=new FormData(form),keys=['heart','head','life'];if(!hasPhoto){status.textContent='사진을 먼저 선택해주세요.';return}if(keys.some(key=>!values.get(key))){status.textContent='세 가지 선의 모양을 모두 골라주세요.';return}const readings=document.querySelector('#readings');readings.replaceChildren(...keys.map((key,index)=>makeReading(key,values.get(key),index)));document.querySelector('#input-panel').hidden=true;document.querySelector('#result').classList.add('active');document.querySelector('#result').scrollIntoView({behavior:'smooth',block:'start'})});
+    function makeSummary(values){const direction=values.fate==='clear'?'자기 방향이 분명하고': '경험을 따라 유연하게 길을 바꾸며';const feeling=values.heart==='index'?'관계에는 기대와 기준이 있으며':'감정은 현실 속에서 천천히 확인하고';const energy=values.life==='wide'?'새로운 경험으로 에너지를 넓히는':'익숙한 기반에서 에너지를 깊게 모으는';return `${direction}, ${feeling} ${energy} 사람으로 읽혀요. 지금은 ${values.sun==='visible'?'숨겨둔 표현을 꺼내 보일':'조용히 실력을 쌓을'} 때라는 손금의 이야기입니다.`}
+    form.addEventListener('submit',event=>{event.preventDefault();const values=Object.fromEntries(new FormData(form)),keys=['heart','head','life','fate','sun','union'];if(!hasPhoto){status.textContent='사진을 먼저 선택해주세요.';return}if(keys.some(key=>!values[key])){status.textContent='여섯 가지 선의 모양을 모두 골라주세요.';return}const readings=document.querySelector('#readings');readings.replaceChildren(...keys.map((key,index)=>makeReading(key,values[key],index)));document.querySelector('#summary').textContent=makeSummary(values);document.querySelector('#input-panel').hidden=true;document.querySelector('#result').classList.add('active');document.querySelector('#result').scrollIntoView({behavior:'smooth',block:'start'})});
     document.querySelector('#reset').addEventListener('click',()=>{document.querySelector('#result').classList.remove('active');document.querySelector('#input-panel').hidden=false;status.textContent='선 모양을 다시 선택할 수 있습니다.';document.querySelector('#input-panel').scrollIntoView({behavior:'smooth',block:'start'})});
     document.querySelector('#start-camera').addEventListener('click',startCamera);document.querySelector('#retake-camera').addEventListener('click',startCamera);document.querySelector('#capture-camera').addEventListener('click',captureCamera);document.querySelector('#cancel-camera').addEventListener('click',cancelCamera);
     document.querySelector('#photo').addEventListener('change',event=>loadPhoto(event.target.files[0]));document.querySelector('#photo-again').addEventListener('change',event=>loadPhoto(event.target.files[0]));document.querySelector('#enhance').addEventListener('click',enhance);window.addEventListener('pagehide',stopCamera);
