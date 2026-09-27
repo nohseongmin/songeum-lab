@@ -1,4 +1,4 @@
-name: 정적 사이트 검증
+name: 검증 및 GitHub Pages 배포
 
 on:
   push:
@@ -8,6 +8,12 @@ on:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   validate:
@@ -15,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 소스 체크아웃
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: HTML과 인라인 JavaScript 구문 검사
         shell: bash
         run: |
@@ -25,10 +31,31 @@ jobs:
           const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
           if (scripts.length !== 1) throw new Error('dist/index.html에 인라인 script가 하나 필요합니다.');
           new Function(scripts[0]);
-          for (const required of ['손금연구소', 'heart', 'head', 'life']) {
+          for (const required of ['손금연구소', 'heart', 'head', 'life', 'getUserMedia']) {
             if (!html.includes(required)) throw new Error(`필수 콘텐츠 누락: ${required}`);
           }
           console.log(`검증 완료: ${Buffer.byteLength(html)} bytes`);
           NODE
       - name: 필수 파일 확인
         run: test -f dist/index.html && test -f .openai/hosting.json
+      - name: Pages 설정
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v6
+      - name: 배포 아티팩트 업로드
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    name: GitHub Pages 배포
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Pages 배포
+        id: deployment
+        uses: actions/deploy-pages@v5
