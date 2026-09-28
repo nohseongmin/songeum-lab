@@ -31,7 +31,7 @@ jobs:
           const scripts = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match => match[1]);
           if (scripts.length !== 1) throw new Error('dist/index.html에 인라인 script가 하나 필요합니다.');
           new Function(scripts[0]);
-          for (const required of ['손금연구소', 'heart', 'head', 'life', 'getUserMedia', 'analyzePhoto', 'capture-guide']) {
+          for (const required of ['손금연구소', 'heart', 'head', 'life', 'getUserMedia', 'pointerdown', 'trace-toolbar']) {
             if (!html.includes(required)) throw new Error(`필수 콘텐츠 누락: ${required}`);
           }
           console.log(`검증 완료: ${Buffer.byteLength(html)} bytes`);
