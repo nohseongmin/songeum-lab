@@ -1,27 +1,28 @@
-# 손금연구소
+# Songeum Lab
 
-손 사진을 서버로 보내지 않고, 사진 위 감정선·두뇌선·생명선을 손가락으로 따라 그리면 길이와 굴곡을 계산해 전통 손금술 기준으로 해석하는 반응형 웹 MVP입니다. 별도 AI 모델이나 API 없이 모바일 브라우저에서 처리하며, 화면 하단에는 Google AdSense 연결을 위한 반응형 광고 자리를 예약해 두었습니다.
+A browser palm-reading prototype. Users trace three lines on a hand photo, and the app measures their lengths and curves to produce an interpretation based on traditional palmistry.
 
-## 실행
+Photos are processed in the browser rather than uploaded. No AI model or API key is used. The layout includes a reserved advertising slot.
 
-```powershell
-cd 'C:\Codex Projects\songeum-lab'
+## Running
+
+From the repository root:
+
+```bash
 python -m http.server 4173 --directory dist
 ```
 
-브라우저에서 `http://localhost:4173`을 엽니다. 별도 설치나 API 키가 없습니다.
+Open `http://localhost:4173`.
 
-## 구조
+## Files
 
-- `dist/index.html` — UI, 사진 처리, 해석 로직을 담은 단일 배포 파일
-- `BLUEPRINT.md` — 시장성, BM, 보안, 범위와 로드맵
-- `.openai/hosting.json` — 정적 호스팅 설정
-- `.github/workflows/site.yml` — 푸시/PR 검증과 `main`의 GitHub Pages 배포
+- `dist/index.html`: interface, photo handling, and interpretation logic.
+- `BLUEPRINT.md`: project scope and design notes.
+- `.openai/hosting.json`: hosting configuration.
+- `.github/workflows/site.yml`: validation and GitHub Pages deployment.
 
-## 주의
+Pushes and pull requests check JavaScript syntax and required content. A successful main build deploys `dist/` to GitHub Pages.
 
-손금은 과학적으로 검증된 성격 검사나 미래 예측법이 아닙니다. 이 프로젝트는 오락·자기성찰용이며 의료·재정·법률 판단에 사용하면 안 됩니다.
+## Intended use
 
-## GitHub Actions
-
-`main` 푸시와 PR마다 GitHub Actions가 `dist/index.html`의 JavaScript 구문과 필수 콘텐츠를 검사합니다. `main` 검증이 통과하면 `dist`를 GitHub Pages에 자동 배포합니다.
+Palmistry is not a scientifically validated personality test or prediction method. This project is for entertainment and reflection, rather than medical, financial, or legal decisions.
