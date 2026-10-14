@@ -9,13 +9,12 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: pages-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   validate:
     name: 정적 사이트 검증
+    concurrency:
+      group: validate-${{ github.ref }}
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     steps:
       - name: 소스 체크아웃
@@ -44,6 +43,9 @@ jobs:
 
   deploy:
     name: GitHub Pages 배포
+    concurrency:
+      group: pages-${{ github.ref }}
+      cancel-in-progress: false
     needs: validate
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
