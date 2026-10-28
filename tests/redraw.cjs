@@ -5,9 +5,10 @@ const vm=require('node:vm');
 
 function element(){
   return{
-    textContent:'',style:{},listeners:{},children:[],
+    textContent:'',style:{},listeners:{},children:[],attributes:{},
     addEventListener(type,listener){this.listeners[type]=listener},
-    setAttribute(){},removeAttribute(){},append(...children){this.children.push(...children)},
+    setAttribute(name,value){this.attributes[name]=String(value)},getAttribute(name){return this.attributes[name]??null},
+    removeAttribute(name){delete this.attributes[name]},append(...children){this.children.push(...children)},
     replaceChildren(...children){this.children=children},
     getContext(){return{}},
     getBoundingClientRect(){return{left:0,top:0,width:100,height:100}},
@@ -41,6 +42,19 @@ assert.equal(elements.get('#analysis-list').children[0].children[1].textContent,
 
 guide.listeners.pointerdown(pointer);
 for(const clientX of [10,20,30])guide.listeners.pointermove({...pointer,clientX});
-guide.listeners.pointerup({...pointer,clientX:30});
+const otherPointer={...pointer,pointerId:2,clientX:80,clientY:80};
+const tracePath=elements.get('#heart-path');
+const originalTrace=tracePath.getAttribute('d');
+guide.listeners.pointerdown(otherPointer);
+assert.equal(tracePath.getAttribute('d'),originalTrace,'다른 포인터가 닿아도 그리던 선을 초기화하면 안 됩니다.');
+guide.listeners.pointermove(otherPointer);
+assert.equal(tracePath.getAttribute('d'),originalTrace,'다른 포인터의 좌표를 그리던 선에 추가하면 안 됩니다.');
+guide.listeners.pointerup(otherPointer);
+assert.equal(generate.disabled,true,'다른 포인터를 떼어도 그리던 선을 완료하면 안 됩니다.');
+guide.listeners.pointercancel(otherPointer);
+assert.equal(generate.disabled,true,'다른 포인터가 취소되어도 그리던 선을 완료하면 안 됩니다.');
+guide.listeners.pointermove({...pointer,clientX:40});
+assert.notEqual(tracePath.getAttribute('d'),originalTrace,'처음 포인터는 다른 포인터의 입력 뒤에도 선을 계속 그릴 수 있어야 합니다.');
+guide.listeners.pointerup({...pointer,clientX:40});
 assert.equal(generate.disabled,false,'유효한 선을 다시 완성하면 결과 버튼이 활성화되어야 합니다.');
 assert.equal(generate.textContent,'내 손금 결과 보기');
