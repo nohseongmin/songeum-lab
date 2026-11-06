@@ -135,7 +135,7 @@
       image.onerror=()=>{URL.revokeObjectURL(url);status.textContent='사진을 열 수 없습니다. 다른 이미지를 선택해주세요.'};
       image.src=url;
     }
-    function setActiveLine(key){activeLine=key;document.querySelectorAll('[data-line]').forEach(button=>button.setAttribute('aria-pressed',button.dataset.line===key));status.textContent=hasPhoto?`${lineNames[key]}을 사진 위에서 손가락으로 따라 그려주세요.`:'사진을 먼저 준비해주세요.'}
+    function setActiveLine(key){if(isDrawing)return;activeLine=key;document.querySelectorAll('[data-line]').forEach(button=>button.setAttribute('aria-pressed',button.dataset.line===key));status.textContent=hasPhoto?`${lineNames[key]}을 사진 위에서 손가락으로 따라 그려주세요.`:'사진을 먼저 준비해주세요.'}
     function clearTraces(){isDrawing=false;if(drawingPointerId!==null&&traceGuide.hasPointerCapture(drawingPointerId))traceGuide.releasePointerCapture(drawingPointerId);drawingPointerId=null;traces={heart:[],head:[],life:[]};detectedValues=null;lineOrder.forEach(key=>{document.querySelector(`#${key}-path`).removeAttribute('d');document.querySelector(`#${key}-label`).style.display='none'});analysisList.replaceChildren(...lineOrder.map(key=>analysisRow(lineNames[key],'그려주세요')));generate.disabled=true;generate.textContent='세 선을 모두 그려주세요';setActiveLine('heart')}
     function analysisRow(name,value){const row=document.createElement('div'),strong=document.createElement('strong'),span=document.createElement('span');row.className='analysis-row';strong.textContent=name;span.textContent=value;row.append(strong,span);return row}
     function eventPoint(event){const rect=traceGuide.getBoundingClientRect();return{x:Math.max(0,Math.min(100,(event.clientX-rect.left)/rect.width*100)),y:Math.max(0,Math.min(100,(event.clientY-rect.top)/rect.height*100))}}
