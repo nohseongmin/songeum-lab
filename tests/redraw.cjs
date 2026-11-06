@@ -19,9 +19,10 @@ function element(){
 }
 
 const elements=new Map();
+const traceButtons=['heart','head','life'].map(line=>Object.assign(element(),{dataset:{line}}));
 const document={
   querySelector(selector){if(!elements.has(selector))elements.set(selector,element());return elements.get(selector)},
-  querySelectorAll(){return[]},
+  querySelectorAll(selector){return selector==='[data-line]'?traceButtons:[]},
   createElement:element
 };
 const context=vm.createContext({document,window:{addEventListener(){}},console});
@@ -76,6 +77,13 @@ for(const reset of ['updateHand()',"markPhotoReady('사진 준비 완료')"]){
     guide.listeners.pointercancel(pointer);
   },'초기화 전 포인터의 남은 입력은 오류 없이 무시해야 합니다.');
   assert.equal(tracePath.getAttribute('d'),null,'초기화 전 포인터로 선이 다시 생기면 안 됩니다.');
+
+  guide.listeners.pointerdown(otherPointer);
+  traceButtons[1].listeners.click();
+  assert.equal(traceButtons[0].getAttribute('aria-pressed'),'true','그리는 동안 다른 선 버튼을 눌러도 선택한 선이 유지되어야 합니다.');
+  assert.doesNotThrow(()=>guide.listeners.pointermove({...otherPointer,clientX:70}),'선 선택 버튼을 눌러도 진행 중인 포인터 입력에서 오류가 나면 안 됩니다.');
+  assert.equal(elements.get('#head-path').getAttribute('d'),null,'그리는 동안 다른 선의 좌표가 바뀌면 안 됩니다.');
+  guide.listeners.pointerup(otherPointer);
 
   for(const line of ['heart','head','life']){
     guide.listeners.pointerdown(otherPointer);
