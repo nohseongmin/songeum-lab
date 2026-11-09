@@ -3,6 +3,11 @@ const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
 
+const packageJson=JSON.parse(fs.readFileSync(path.join(__dirname,'../package.json'),'utf8'));
+assert.equal(packageJson.scripts?.test,'node tests/redraw.cjs','npm test는 손금 회귀 테스트를 실행해야 합니다.');
+const workflow=fs.readFileSync(path.join(__dirname,'../.github/workflows/site.yml'),'utf8');
+assert.match(workflow,/^\s+run: npm test\s*$/m,'CI에서 npm test로 손금 회귀 테스트를 실행해야 합니다.');
+
 function element(){
   return{
     textContent:'',style:{},listeners:{},children:[],attributes:{},dataset:{},classList:{add(){}},
@@ -61,6 +66,24 @@ assert.notEqual(tracePath.getAttribute('d'),originalTrace,'처음 포인터는 �
 guide.listeners.pointerup({...pointer,clientX:40});
 assert.equal(generate.disabled,false,'유효한 선을 다시 완성하면 결과 버튼이 활성화되어야 합니다.');
 assert.equal(generate.textContent,'내 손금 결과 보기');
+
+const otherAnalysis=elements.get('#analysis-list').children.slice(1).map(row=>row.children[1].textContent);
+guide.listeners.pointerdown(pointer);
+for(const clientX of [10,20,30])guide.listeners.pointermove({...pointer,clientX});
+guide.listeners.pointercancel({...pointer,type:'pointercancel'});
+assert.equal(generate.disabled,true,'길이 조건을 만족해도 취소된 선으로 결과 버튼이 활성화되면 안 됩니다.');
+assert.equal(tracePath.getAttribute('d'),null,'취소된 선은 사진에서 지워져야 합니다.');
+assert.equal(guide.hasPointerCapture(pointer.pointerId),false,'취소된 포인터의 캡처는 해제되어야 합니다.');
+assert.equal(elements.get('#analysis-list').children[0].children[1].textContent,'그려주세요','취소된 선은 다시 그리도록 안내해야 합니다.');
+assert.deepEqual(elements.get('#analysis-list').children.slice(1).map(row=>row.children[1].textContent),otherAnalysis,'취소하지 않은 선의 분석은 유지되어야 합니다.');
+assert.equal(elements.get('#status').textContent,'그리기가 취소되었습니다. 보이는 선을 처음부터 끝까지 다시 그려주세요.');
+guide.listeners.pointermove({...pointer,clientX:40});
+guide.listeners.pointerup(pointer);
+assert.equal(tracePath.getAttribute('d'),null,'취소 후 남은 포인터 입력으로 선이 다시 생기면 안 됩니다.');
+guide.listeners.pointerdown(otherPointer);
+for(const clientX of [70,60,50])guide.listeners.pointermove({...otherPointer,clientX});
+guide.listeners.pointerup(otherPointer);
+assert.equal(generate.disabled,false,'취소 후 새 포인터로 선을 완성하면 결과 버튼이 다시 활성화되어야 합니다.');
 
 for(const reset of ['updateHand()',"markPhotoReady('사진 준비 완료')"]){
   guide.listeners.pointerdown(pointer);
