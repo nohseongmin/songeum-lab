@@ -36,6 +36,8 @@ jobs:
           NODE
       - name: 필수 파일 확인
         run: test -f dist/index.html && test -f .openai/hosting.json
+      - name: 손금 다시 그리기 회귀 검사
+        run: npm test
       - name: 배포 아티팩트 업로드
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v5
